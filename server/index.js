@@ -9,12 +9,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+//route API
 app.use("/api/transactions", transactionRoutes);
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+
+//connect to MongoDB
+mongoose.connect(process.env.MONGO_URI)
 .then(() => {
   app.listen(5000, () => console.log("Server running on port 5000"));
 })

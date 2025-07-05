@@ -20,6 +20,7 @@ export default function TransactionForm({ fetchData, editData, onEditDone }) {
     e.preventDefault();
     const data = { amount: +amount, description, date };
 
+    //if editdata is true so edit mode is exist other wise new add
     if (editData) {
       await axios.put(`http://localhost:5000/api/transactions/${editData._id}`, data);
       onEditDone();
