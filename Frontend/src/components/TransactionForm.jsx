@@ -22,10 +22,10 @@ export default function TransactionForm({ fetchData, editData, onEditDone }) {
 
     //if editdata is true so edit mode is exist other wise new add
     if (editData) {
-      await axios.put(`http://localhost:5000/api/transactions/${editData._id}`, data);
+      await axios.put(`${import.meta.env.VITE_BASE_LINK}/api/transactions/${editData._id}`, data);
       onEditDone();
     } else {
-      await axios.post("http://localhost:5000/api/transactions", data);
+      await axios.post(`${import.meta.env.VITE_BASE_LINK}/api/transactions`, data);
     }
 
     fetchData();

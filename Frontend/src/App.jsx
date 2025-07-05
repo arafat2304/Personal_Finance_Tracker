@@ -11,13 +11,15 @@ function App() {
   const [transactions, setTransactions] = useState([]);
   const [editData, setEditData] = useState(null);
 
+  //fetch all record
   const fetchData = async () => {
-    const res = await axios.get("http://localhost:5000/api/transactions");
+    const res = await axios.get(`${import.meta.env.VITE_BASE_LINK}/api/transactions`);
     setTransactions(res.data);
   };
 
+  //delete record
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/api/transactions/${id}`);
+    await axios.delete(`${import.meta.env.VITE_BASE_LINK}/api/transactions/${id}`);
     fetchData();
   };
 
