@@ -6,15 +6,25 @@ export const getTransactions = async (req, res) => {
 };
 
 export const addTransaction = async (req, res) => {
-  const { amount, description, date } = req.body;
-  const newTransaction = await Transaction.create({ amount, description, date });
-  res.json(newTransaction);
+  try {
+    const { amount, description, date, category } = req.body;
+    const newTransaction = new Transaction({ amount, description, date, category });
+    await newTransaction.save();
+    res.status(201).json(newTransaction);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "Failed to create transaction", error });
+  }
 };
 
 export const updateTransaction = async (req, res) => {
-  const { id } = req.params;
-  const updated = await Transaction.findByIdAndUpdate(id, req.body, { new: true });
-  res.json(updated);
+  try {
+    const { id } = req.params;
+    const updated = await Transaction.findByIdAndUpdate(id, req.body, { new: true });
+    res.status(200).json(updated);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to update transaction", error });
+  }
 };
 
 export const deleteTransaction = async (req, res) => {
