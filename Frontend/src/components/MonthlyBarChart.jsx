@@ -1,16 +1,16 @@
+import React from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
-export default function MonthlyBarChart({ transactions }) {
-  const monthlyData = {};
+const MonthlyBarChart = ({ transactions }) => {
+  const monthlyTotals = transactions.reduce((acc, t) => {
+    const month = new Date(t.date).toLocaleString("default", { month: "short" });
+    acc[month] = (acc[month] || 0) + Number(t.amount);
+    return acc;
+  }, {});
 
-  transactions.forEach(({ date, amount }) => {
-    const month = new Date(date).toLocaleString("default", { month: "short", year: "numeric" });
-    monthlyData[month] = (monthlyData[month] || 0) + amount;
-  });
-
-  const chartData = Object.keys(monthlyData).map((key) => ({
-    name: key,
-    amount: monthlyData[key],
+  const chartData = Object.keys(monthlyTotals).map((month) => ({
+    name: month,
+    total: monthlyTotals[month],
   }));
 
   return (
@@ -19,8 +19,10 @@ export default function MonthlyBarChart({ transactions }) {
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Bar dataKey="amount" fill="#3b82f6" />
+        <Bar dataKey="total" fill="#3b82f6" />
       </BarChart>
     </ResponsiveContainer>
   );
-}
+};
+
+export default MonthlyBarChart;
